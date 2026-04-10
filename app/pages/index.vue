@@ -5,7 +5,14 @@ const { t } = useLocale()
 <template>
   <div class="flex-1 flex items-center justify-center p-4 sm:p-6">
     <div class="text-center">
-      <h1 class="text-4xl font-bold mb-12">TCG collage</h1>
+      <h1 class="text-4xl font-bold mb-4">TCG collage</h1>
+
+      <p class="text-gray-300 text-base sm:text-lg mb-4 max-w-md mx-auto">{{ t('home_description') }}</p>
+
+      <p class="text-gray-400 text-sm mb-10">
+        {{ t('home_help_hint') }}
+        <NuxtLink to="/help" class="text-green-400 hover:text-green-300 underline">{{ t('help') }}</NuxtLink>.
+      </p>
 
       <div class="flex flex-col sm:flex-row gap-8 sm:gap-16 justify-center items-center">
         <div class="flex flex-col items-center border-2 border-white rounded-xl p-6">
