@@ -5,10 +5,9 @@ export const useCollageGenerator = () => {
     const loadImg = (url: string): Promise<HTMLImageElement | null> =>
         new Promise(resolve => {
             const img = new Image()
-            img.crossOrigin = 'anonymous'
             img.onload = () => resolve(img)
             img.onerror = () => resolve(null)
-            img.src = url
+            img.src = `/api/image-proxy?url=${encodeURIComponent(url)}`
         })
 
     const drawBadgePath = (ctx: CanvasRenderingContext2D, x: number, y: number, r: number, shape: BadgeShape) => {
