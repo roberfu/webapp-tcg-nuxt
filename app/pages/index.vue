@@ -2,10 +2,10 @@
 const { t } = useLocale()
 
 useSeoMeta({
-  title: 'TCG Collage',
-  description: 'Genera collages visuales de tus mazos de Magic: The Gathering y Pokémon TCG de forma rápida y bonita.',
-  ogTitle: 'TCG Collage',
-  ogDescription: 'Genera collages visuales de tus mazos de Magic y Pokémon TCG.',
+  title: 'TCG Collage — Generador de collages de Magic y Pokémon',
+  description: 'Genera collages visuales de tus mazos de Magic: The Gathering y Pokémon TCG de forma rápida y bonita. Pega tu lista de cartas y descarga la imagen en PNG.',
+  ogTitle: 'TCG Collage — Generador de collages de Magic y Pokémon',
+  ogDescription: 'Genera collages visuales de tus mazos de Magic: The Gathering y Pokémon TCG de forma rápida y bonita. Pega tu lista de cartas y descarga la imagen en PNG.',
   ogImage: 'https://tcgcollage.vercel.app/og-image.png',
   ogUrl: 'https://tcgcollage.vercel.app',
   ogType: 'website',
