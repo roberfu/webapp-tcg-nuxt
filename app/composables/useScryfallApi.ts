@@ -11,9 +11,6 @@ interface ScryfallCard {
     card_faces?: { image_uris?: ScryfallImageUris }[]
 }
 
-interface ScryfallResponse {
-    data: ScryfallCard[]
-}
 
 export interface CardResult {
     id: string
@@ -25,28 +22,22 @@ export const useScryfallApi = () => {
     const BASE = 'https://api.scryfall.com/cards'
 
     const searchCards = async (name: string): Promise<CardResult[]> => {
-        const data = await $fetch<ScryfallResponse>(`${BASE}/search`, {
-            params: {
-                q: name,
-                unique: 'cards',
-                pageSize: 12
-            }
-        })
+        try {
+            const card = await $fetch<ScryfallCard>(`${BASE}/named`, {
+                params: { exact: name }
+            })
 
-        return data.data
-            .filter(card => {
-                if (card.image_uris?.large || card.image_uris?.normal) return true
-                if (card.card_faces?.[0]?.image_uris?.large || card.card_faces?.[0]?.image_uris?.normal) return true
-                return false
-            })
-            .map(card => {
-                const imageUris = card.image_uris || card.card_faces?.[0]?.image_uris
-                return {
-                    id: card.id,
-                    name: card.name,
-                    imageUrl: imageUris?.large || imageUris?.normal || imageUris?.png || ''
-                }
-            })
+            const imageUris = card.image_uris || card.card_faces?.[0]?.image_uris
+            if (!imageUris?.large && !imageUris?.normal) return []
+
+            return [{
+                id: card.id,
+                name: card.name,
+                imageUrl: imageUris?.large || imageUris?.normal || imageUris?.png || ''
+            }]
+        } catch {
+            return []
+        }
     }
 
     return { searchCards }
