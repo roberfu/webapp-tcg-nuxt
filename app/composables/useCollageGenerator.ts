@@ -116,11 +116,11 @@ export const useCollageGenerator = () => {
         const hours = String(now.getHours()).padStart(2, '0')
         const minutes = String(now.getMinutes()).padStart(2, '0')
         const seconds = String(now.getSeconds()).padStart(2, '0')
-        const filename = `collage_${type}_${day}${month}${year}${hours}${minutes}${seconds}.png`
-        
+        const filename = `collage_${type}_${day}${month}${year}${hours}${minutes}${seconds}.jpg`
+
         const a = document.createElement('a')
         a.download = filename
-        a.href = canvas.toDataURL('image/png')
+        a.href = canvas.toDataURL('image/jpeg', 0.85)
         a.click()
     }
 
