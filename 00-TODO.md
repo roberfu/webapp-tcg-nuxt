@@ -1,5 +1,25 @@
 # TODO - webapp-tcg-nuxt
 
+## Completado ✅
+
+- [x] Generador de collage Magic: The Gathering
+- [x] Generador de collage Pokémon TCG
+- [x] Proxy server-side para imágenes (fix CORS en Chrome)
+- [x] Búsqueda por nombre exacto en Magic (Scryfall `/cards/named`)
+- [x] Búsqueda por set y número de carta en Pokémon TCG
+- [x] Badges de cantidad con formas: círculo, diamante, hexágono
+- [x] Procesamiento de cartas en lotes de 4 (performance)
+- [x] Progreso visible al procesar listas ("Procesando 4/12...")
+- [x] Collage ajusta ancho según cantidad de cartas (horizontal responsive)
+- [x] Mensajes diferenciados: "no encontradas" vs "error de red/API"
+- [x] Footer visible en todas las páginas (layout flex)
+- [x] i18n Español 🇨🇱 / English 🇺🇸 con selector de bandera
+- [x] Idioma persistido en localStorage
+- [x] Página `/help` (en desarrollo)
+- [x] Responsivo: index apila tarjetas en móvil, padding adaptable
+
+---
+
 ## Funcionalidades nuevas
 
 ### Collage
@@ -14,16 +34,17 @@
 - [ ] Filtros: por set, por rareza, por tipo
 
 ### Páginas pendientes
+- [ ] `/help` — guía de uso
 - [ ] `/database` — explorador de cartas con búsqueda y filtros
 - [ ] `/collection` — colección personal persistida en localStorage o base de datos
 
+---
+
 ## UX / Visual
-- [ ] Indicador de progreso al procesar listas largas (ej: "3/12 cartas cargadas...")
 - [ ] Mensaje cuando el collage está vacío, invitando a pegar una lista
 - [ ] Modo claro / oscuro
 - [ ] Skeleton de carga en las imágenes del deck list
 - [ ] Toast de confirmación al descargar el PNG
-- [ ] Indicar visualmente qué cartas no se encontraron (ahora solo aparece texto)
 - [ ] Botón para limpiar la lista y el deck de una vez
 
 ## Mobile
@@ -33,9 +54,7 @@
 ## Técnico / Calidad
 - [ ] Extraer panel de configuración (cols, gap, colores, badge) en componente reutilizable
 - [ ] Extraer panel de deck list en componente reutilizable
-- [ ] Mensajes de error en pantalla cuando la API falla (ahora solo hay console.error)
 - [ ] Límite de cartas en el deck list con aviso al usuario
-- [ ] Rate limiting en el procesamiento para no saturar las APIs
 
 ## SEO / Meta
 - [ ] Open Graph tags para preview al compartir el link

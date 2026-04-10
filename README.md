@@ -1,28 +1,65 @@
 # webapp-tcg-nuxt
 
-Aplicación web para gestionar collage de cartas (Pokemon TCG y Magic: The Gathering).
+Aplicación web para generar collages de cartas TCG (Pokémon y Magic: The Gathering) a partir de listas de deck. Permite descargar el resultado como imagen PNG.
 
-## Descripción
+## Funcionalidades
 
-Interfaz para generar collages.
+- Generador de collages para **Magic: The Gathering** y **Pokémon TCG**
+- Búsqueda de cartas por nombre exacto usando APIs públicas
+- Configuración del collage: columnas, espaciado, color de fondo, badge y borde
+- Badges de cantidad sobre cada carta (formas: círculo, diamante, hexágono)
+- Descarga del collage como PNG con nombre automático y fecha
+- Preview en tiempo real del collage generado
+- Progreso visible al procesar listas (`Procesando 4/12...`)
+- i18n: interfaz en **Español** 🇨🇱 e **Inglés** 🇺🇸 con selector de bandera
+- Idioma persistido en localStorage entre sesiones
 
 ## Páginas
 
-- `index.vue` - Página principal
-- `collage-magic.vue` - Generador de collages Magic
-- `collage-pokemon.vue` - Generador de collages Pokemon
+| Ruta | Estado | Descripción |
+|---|---|---|
+| `/` | Completa | Página principal con selector de juego |
+| `/collage-magic` | Completa | Generador de collages Magic: The Gathering |
+| `/collage-pokemon` | Completa | Generador de collages Pokémon TCG |
+| `/help` | En desarrollo | Guía de uso |
+| `/database` | En desarrollo | Explorador de cartas |
+| `/collection` | En desarrollo | Colección personal |
+
+## Formato de listas
+
+**Magic: The Gathering**
+```
+1 Lightning Bolt
+2 Counterspell
+1,"Black Lotus"
+```
+
+**Pokémon TCG**
+```
+4 Teal Mask Ogerpon ex TWM 25
+2 Mew Ex MEW 151
+1 Switch MEW 206
+```
 
 ## APIs
 
-- [Scryfall API](https://scryfall.com/docs/api) - Magic: The Gathering
-- [Pokemon TCG API](https://docs.pokemontcg.io/) - Pokemon Trading Card Game
+- [Scryfall API](https://scryfall.com/docs/api) — Magic: The Gathering (búsqueda por nombre exacto)
+- [Pokémon TCG API](https://docs.pokemontcg.io/) — Pokémon Trading Card Game
+
+## Tech Stack
+
+- [Nuxt 4](https://nuxt.com/) — Framework Vue con SSR
+- [Vue 3](https://vuejs.org/) — Framework UI
+- [Tailwind CSS](https://tailwindcss.com/) — Estilos
+- Canvas API — Generación y descarga del collage
+- Nitro server routes — Proxy de imágenes para CORS
 
 ## Requisitos
 
 - Node.js (LTS)
 - Yarn
 
-## Uso
+## Desarrollo
 
 ```bash
 # Instalar dependencias
@@ -38,8 +75,10 @@ yarn build
 yarn preview
 ```
 
-## Tech Stack
+## Deploy
 
-- [Nuxt](https://nuxt.com/) - Framework Vue
-- [Vue](https://vuejs.org/) - Framework UI
-- [Tailwind CSS](https://tailwindcss.com/) - Estilos
+El proyecto está configurado para desplegarse en **Vercel** en modo SSR. Los server routes (`/api/image-proxy`) se despliegan automáticamente como Vercel Functions.
+
+## Reportar problemas
+
+Si encuentras algún problema, repórtalo en [GitHub Issues](https://github.com/roberfg/webapp-tcg-nuxt/issues).
