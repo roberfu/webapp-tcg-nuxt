@@ -189,7 +189,7 @@ const onDownload = async () => {
             <div class="grid grid-cols-2 gap-3 text-sm">
               <label class="flex flex-col gap-1">
                 <span class="text-gray-400">{{ t('columns') }}</span>
-                <input v-model.number="cols" type="number" min="2" max="10" class="w-16 bg-gray-700 rounded px-2 py-1" />
+                <input v-model.number="cols" type="number" min="1" max="10" class="w-16 bg-gray-700 rounded px-2 py-1" />
                 <span class="text-xs text-gray-500">{{ t('columns_hint') }}</span>
               </label>
               <label class="flex items-center gap-2">
@@ -225,7 +225,7 @@ const onDownload = async () => {
               </div>
               <div v-if="multipleFiles" class="flex items-center gap-2 mt-2">
                 <span class="text-gray-400 text-sm">{{ t('rows') }}</span>
-                <input v-model.number="multiRows" type="number" min="1" max="6" class="w-16 bg-gray-700 rounded px-2 py-1 text-sm" />
+                <input v-model.number="multiRows" type="number" min="1" max="10" class="w-16 bg-gray-700 rounded px-2 py-1 text-sm" />
               </div>
               <p class="text-xs text-gray-500 mt-1">{{ t('download_multiple_hint') }}</p>
             </div>
@@ -259,7 +259,13 @@ const onDownload = async () => {
 
         <div class="bg-gray-800 rounded-xl p-4 overflow-auto">
           <p class="text-sm text-gray-400 mb-3">
-            {{ t('preview') }} — {{ Math.min(cols, deck.length || 1) }} col{{ Math.min(cols, deck.length || 1) !== 1 ? 's' : '' }}, {{ Math.ceil(deck.length / Math.min(cols, deck.length || 1)) }} {{ t('row') }}{{ Math.ceil(deck.length / Math.min(cols, deck.length || 1)) !== 1 ? 's' : '' }}
+            {{ (() => {
+              const actualCols = Math.min(cols, deck.length || 1)
+              const displayRows = multipleFiles ? multiRows : Math.ceil(deck.length / actualCols)
+              const filesCount = multipleFiles ? Math.ceil(deck.length / (actualCols * multiRows)) : 1
+              const filesLabel = filesCount === 1 ? t('preview_files', { count: filesCount }) : t('preview_files_plural', { count: filesCount })
+              return `${t('preview')} — ${actualCols} ${t('preview_cols')} × ${displayRows} ${t('preview_rows')} · ${filesLabel}`
+            })() }}
           </p>
           <canvas ref="canvasRef" class="rounded max-w-full" />
         </div>
