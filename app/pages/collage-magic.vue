@@ -19,6 +19,7 @@ const gap = ref(12)
 const bg = ref('#1a1a1a')
 const badgeColor = ref('#c0392b')
 const borderColor = ref('#ffffff')
+const badgeShape = ref<'circle' | 'diamond' | 'hexagon'>('hexagon')
 
 const parseDeckList = (text: string) => {
   const lines = text.trim().split('\n').filter(l => l.trim())
@@ -115,13 +116,14 @@ const onGenerate = async () => {
     gap: gap.value,
     bg: bg.value,
     badgeColor: badgeColor.value,
-    borderColor: borderColor.value
+    borderColor: borderColor.value,
+    badgeShape: badgeShape.value
   })
   status.value = 'Collage listo'
 }
 
 const onDownload = () => {
-  if (canvasRef.value) download(canvasRef.value)
+  if (canvasRef.value) download(canvasRef.value, 'magic')
 }
 </script>
 
@@ -195,6 +197,14 @@ const onDownload = () => {
               <label class="flex items-center gap-2">
                 <span class="text-gray-400">Borde</span>
                 <input v-model="borderColor" type="color" class="w-10 h-8 rounded cursor-pointer" />
+              </label>
+              <label class="flex items-center gap-2">
+                <span class="text-gray-400">Badge</span>
+                <select v-model="badgeShape" class="bg-gray-700 rounded px-2 py-1">
+                  <option value="circle">Círculo</option>
+                  <option value="diamond">Diamante</option>
+                  <option value="hexagon">Hexágono</option>
+                </select>
               </label>
             </div>
           </div>

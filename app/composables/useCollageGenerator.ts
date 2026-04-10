@@ -1,3 +1,5 @@
+export type BadgeShape = 'circle' | 'diamond' | 'hexagon'
+
 export const useCollageGenerator = () => {
 
     const loadImg = (url: string): Promise<HTMLImageElement | null> =>
@@ -9,12 +11,35 @@ export const useCollageGenerator = () => {
             img.src = url
         })
 
+    const drawBadgePath = (ctx: CanvasRenderingContext2D, x: number, y: number, r: number, shape: BadgeShape) => {
+        ctx.beginPath()
+        switch (shape) {
+            case 'circle':
+                ctx.arc(x, y, r, 0, Math.PI * 2)
+                break
+            case 'diamond':
+                ctx.moveTo(x, y - r)
+                ctx.lineTo(x + r, y)
+                ctx.lineTo(x, y + r)
+                ctx.lineTo(x - r, y)
+                ctx.closePath()
+                break
+            case 'hexagon':
+                for (let i = 0; i < 6; i++) {
+                    const angle = (i * Math.PI) / 3 - Math.PI / 2
+                    ctx.lineTo(x + r * Math.cos(angle), y + r * Math.sin(angle))
+                }
+                ctx.closePath()
+                break
+        }
+    }
+
     const generate = async (
         canvas: HTMLCanvasElement,
         cards: { name: string; imageUrl: string; quantity: number }[],
-        opts: { cols: number; gap: number; bg: string; badgeColor?: string; borderColor?: string }
+        opts: { cols: number; gap: number; bg: string; badgeColor?: string; borderColor?: string; badgeShape?: BadgeShape }
     ) => {
-        const { cols, gap, bg, badgeColor = '#c0392b', borderColor = '#ffffff' } = opts
+        const { cols, gap, bg, badgeColor = '#c0392b', borderColor = '#ffffff', badgeShape = 'circle' } = opts
 
         const images = await Promise.all(cards.map(c => loadImg(c.imageUrl)))
 
@@ -57,8 +82,7 @@ export const useCollageGenerator = () => {
             const bx = x + cardW / 2
             const by = y + cardH - Math.round(cardW * 0.095)
             const badgeR = Math.round(cardW * 0.08)
-            ctx.beginPath()
-            ctx.arc(bx, by, badgeR, 0, Math.PI * 2)
+            drawBadgePath(ctx, bx, by, badgeR, badgeShape)
             ctx.fillStyle = badgeColor
             ctx.fill()
             ctx.strokeStyle = borderColor
@@ -72,7 +96,16 @@ export const useCollageGenerator = () => {
         })
     }
 
-    const download = (canvas: HTMLCanvasElement, filename = 'decklist.png') => {
+    const download = (canvas: HTMLCanvasElement, type: 'pokemon' | 'magic' = 'pokemon') => {
+        const now = new Date()
+        const day = String(now.getDate()).padStart(2, '0')
+        const month = String(now.getMonth() + 1).padStart(2, '0')
+        const year = now.getFullYear()
+        const hours = String(now.getHours()).padStart(2, '0')
+        const minutes = String(now.getMinutes()).padStart(2, '0')
+        const seconds = String(now.getSeconds()).padStart(2, '0')
+        const filename = `collage_${type}_${day}${month}${year}${hours}${minutes}${seconds}.png`
+        
         const a = document.createElement('a')
         a.download = filename
         a.href = canvas.toDataURL('image/png')

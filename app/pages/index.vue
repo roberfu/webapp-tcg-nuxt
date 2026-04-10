@@ -10,8 +10,8 @@
           </NuxtLink>
           <div class="flex flex-col gap-2">
             <NuxtLink to="/collage-magic" class="px-6 py-2 bg-green-600 rounded-lg hover:bg-green-700 border border-white">Collage</NuxtLink>
-            <NuxtLink to="/database" class="px-6 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 border border-white">Database</NuxtLink>
-            <NuxtLink to="/collection" class="px-6 py-2 bg-purple-600 rounded-lg hover:bg-purple-700 border border-white">Collection</NuxtLink>
+            <!-- <NuxtLink to="/database" class="px-6 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 border border-white">Database</NuxtLink> -->
+            <!-- <NuxtLink to="/collection" class="px-6 py-2 bg-purple-600 rounded-lg hover:bg-purple-700 border border-white">Collection</NuxtLink> -->
           </div>
         </div>
 
@@ -21,8 +21,8 @@
           </NuxtLink>
           <div class="flex flex-col gap-2">
             <NuxtLink to="/collage-pokemon" class="px-6 py-2 bg-green-600 rounded-lg hover:bg-green-700 border border-white">Collage</NuxtLink>
-            <NuxtLink to="/database" class="px-6 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 border border-white">Database</NuxtLink>
-            <NuxtLink to="/collection" class="px-6 py-2 bg-purple-600 rounded-lg hover:bg-purple-700 border border-white">Collection</NuxtLink>
+            <!-- <NuxtLink to="/database" class="px-6 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 border border-white">Database</NuxtLink> -->
+            <!-- <NuxtLink to="/collection" class="px-6 py-2 bg-purple-600 rounded-lg hover:bg-purple-700 border border-white">Collection</NuxtLink> -->
           </div>
         </div>
       </div>
