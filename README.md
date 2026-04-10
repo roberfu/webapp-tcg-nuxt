@@ -2,6 +2,8 @@
 
 Aplicación web para generar collages de cartas TCG (Pokémon y Magic: The Gathering) a partir de listas de deck. Permite descargar el resultado como imagen PNG.
 
+Creada por un grupo de amigos aficionados a Magic: The Gathering y los juegos de cartas coleccionables, construida en nuestro tiempo libre con mucho cariño.
+
 ## Funcionalidades
 
 - Generador de collages para **Magic: The Gathering** y **Pokémon TCG**
@@ -21,7 +23,8 @@ Aplicación web para generar collages de cartas TCG (Pokémon y Magic: The Gathe
 | `/` | Completa | Página principal con selector de juego |
 | `/collage-magic` | Completa | Generador de collages Magic: The Gathering |
 | `/collage-pokemon` | Completa | Generador de collages Pokémon TCG |
-| `/help` | En desarrollo | Guía de uso |
+| `/help` | Completa | Guía visual de uso con capturas de pantalla |
+| `/about` | Completa | Sobre el equipo y agradecimientos a servicios |
 | `/database` | En desarrollo | Explorador de cartas |
 | `/collection` | En desarrollo | Colección personal |
 
@@ -41,18 +44,20 @@ Aplicación web para generar collages de cartas TCG (Pokémon y Magic: The Gathe
 1 Switch MEW 206
 ```
 
-## APIs
+## APIs e imágenes
 
 - [Scryfall API](https://scryfall.com/docs/api) — Magic: The Gathering (búsqueda por nombre exacto)
-- [Pokémon TCG API](https://docs.pokemontcg.io/) — Pokémon Trading Card Game
+- [Scrydex](https://scrydex.com) — Imágenes de alta calidad de cartas Magic
+- [Pokémon TCG API](https://docs.pokemontcg.io/) — Pokémon Trading Card Game (cartas e imágenes)
 
 ## Tech Stack
 
 - [Nuxt 4](https://nuxt.com/) — Framework Vue con SSR
 - [Vue 3](https://vuejs.org/) — Framework UI
 - [Tailwind CSS](https://tailwindcss.com/) — Estilos
-- Canvas API — Generación y descarga del collage
+- [html-to-image](https://github.com/bubkoo/html-to-image) — Exportación del collage como PNG
 - Nitro server routes — Proxy de imágenes para CORS
+- [Vercel](https://vercel.com) — Hosting y deploy
 
 ## Requisitos
 

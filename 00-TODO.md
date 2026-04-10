@@ -13,9 +13,11 @@
 - [x] Collage ajusta ancho según cantidad de cartas (horizontal responsive)
 - [x] Mensajes diferenciados: "no encontradas" vs "error de red/API"
 - [x] Footer visible en todas las páginas (layout flex)
-- [x] i18n Español 🇨🇱 / English 🇺🇸 con selector de bandera
+- [x] i18n Español / English con selector de bandera (imágenes flagcdn.com, cross-browser)
 - [x] Idioma persistido en localStorage
-- [x] Página `/help` (en desarrollo)
+- [x] Página `/help` con guía visual por pasos (Magic y Pokémon)
+- [x] Página `/about` con descripción del equipo y agradecimientos a servicios
+- [x] Links de Ayuda y Sobre nosotros en el footer
 - [x] Responsivo: index apila tarjetas en móvil, padding adaptable
 
 ---
@@ -34,7 +36,6 @@
 - [ ] Filtros: por set, por rareza, por tipo
 
 ### Páginas pendientes
-- [ ] `/help` — guía de uso
 - [ ] `/database` — explorador de cartas con búsqueda y filtros
 - [ ] `/collection` — colección personal persistida en localStorage o base de datos
 
