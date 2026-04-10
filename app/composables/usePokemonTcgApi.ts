@@ -2,6 +2,8 @@ export const usePokemonTcgApi = () => {
     const BASE = 'https://api.pokemontcg.io/v2'
     const setIdCache = new Map<string, string>()
 
+    const toProxyUrl = (url: string) => `/api/proxy?url=${encodeURIComponent(url)}`
+
     const getSetIdByPtcgoCode = async (ptcgoCode: string): Promise<string | null> => {
         if (setIdCache.has(ptcgoCode)) {
             return setIdCache.get(ptcgoCode)!
@@ -53,7 +55,7 @@ export const usePokemonTcgApi = () => {
             return cards.map(card => ({
                 id: card.id,
                 name: card.name,
-                imageUrl: card.images.large ?? card.images.small
+                imageUrl: toProxyUrl(card.images.large ?? card.images.small)
             }))
         }
 
@@ -68,7 +70,7 @@ export const usePokemonTcgApi = () => {
             return (fallbackData.data as any[]).map(card => ({
                 id: card.id,
                 name: card.name,
-                imageUrl: card.images.large ?? card.images.small
+                imageUrl: toProxyUrl(card.images.large ?? card.images.small)
             }))
         }
 

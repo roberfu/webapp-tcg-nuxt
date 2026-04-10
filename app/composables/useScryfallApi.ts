@@ -1,6 +1,8 @@
 export const useScryfallApi = () => {
     const BASE = 'https://api.scryfall.com/cards'
 
+    const toProxyUrl = (url: string) => `/api/proxy?url=${encodeURIComponent(url)}`
+
     const searchCards = async (name: string) => {
         const data: any = await $fetch(`${BASE}/search`, {
             params: {
@@ -23,7 +25,7 @@ export const useScryfallApi = () => {
                 return {
                     id: card.id,
                     name: card.name,
-                    imageUrl: imageUris?.large || imageUris?.normal || imageUris?.png
+                    imageUrl: toProxyUrl(imageUris?.large || imageUris?.normal || imageUris?.png)
                 }
             })
     }
