@@ -10,15 +10,15 @@ const { locale, setLocale, t } = useLocale()
       <button
         @click="setLocale('es')"
         :class="locale === 'es' ? 'opacity-100' : 'opacity-35'"
-        class="text-xl transition-opacity hover:opacity-100"
+        class="transition-opacity hover:opacity-100"
         title="Español"
-      >🇨🇱</button>
+      ><img src="https://flagcdn.com/24x18/cl.png" alt="Español" width="24" height="18" /></button>
       <button
         @click="setLocale('en')"
         :class="locale === 'en' ? 'opacity-100' : 'opacity-35'"
-        class="text-xl transition-opacity hover:opacity-100"
+        class="transition-opacity hover:opacity-100"
         title="English"
-      >🇺🇸</button>
+      ><img src="https://flagcdn.com/24x18/us.png" alt="English" width="24" height="18" /></button>
     </div>
 
     <main class="flex-1 flex flex-col">
