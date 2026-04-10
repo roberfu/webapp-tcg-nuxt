@@ -11,9 +11,11 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss'],
   app: {
     head: {
+      htmlAttrs: { lang: 'es' },
       title: 'TCG collage',
       link: [
-        { rel: 'icon', type: 'image/png', href: '/icon.png' }
+        { rel: 'icon', type: 'image/png', href: '/icon.png' },
+        { rel: 'canonical', href: 'https://tcgcollage.vercel.app' }
       ]
     }
   }

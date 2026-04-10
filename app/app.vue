@@ -1,6 +1,25 @@
 <script setup lang="ts">
 const { public: { version } } = useRuntimeConfig()
 const { locale, setLocale, t } = useLocale()
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebApplication',
+        name: 'TCG Collage',
+        url: 'https://tcgcollage.vercel.app',
+        description: 'Genera collages visuales de mazos de Magic: The Gathering y Pokémon TCG.',
+        applicationCategory: 'UtilitiesApplication',
+        operatingSystem: 'Web',
+        inLanguage: ['es', 'en'],
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+      }),
+    },
+  ],
+})
 </script>
 
 <template>

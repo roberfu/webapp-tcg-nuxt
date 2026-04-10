@@ -1,2 +1,3 @@
 User-Agent: *
 Disallow:
+Sitemap: https://tcgcollage.vercel.app/sitemap.xml

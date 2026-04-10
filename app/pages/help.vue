@@ -1,6 +1,16 @@
 <script setup lang="ts">
 const { t } = useLocale()
-useHead({ title: 'TCG collage - Help' })
+
+useSeoMeta({
+  title: 'Ayuda — TCG Collage',
+  description: 'Aprende a usar TCG Collage paso a paso. Guía para generar collages de Magic: The Gathering y Pokémon TCG.',
+  ogTitle: 'Ayuda — TCG Collage',
+  ogDescription: 'Guía paso a paso para generar collages de cartas TCG.',
+  ogImage: 'https://tcgcollage.vercel.app/og-image.png',
+  ogUrl: 'https://tcgcollage.vercel.app/help',
+  ogType: 'website',
+  twitterCard: 'summary_large_image',
+})
 
 const magicSteps = computed(() => [
   { img: '/help/magic-step1.png', title: t('help_magic_step1_title'), desc: t('help_magic_step1_desc') },

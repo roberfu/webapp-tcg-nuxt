@@ -1,5 +1,16 @@
 <script setup lang="ts">
 const { t } = useLocale()
+
+useSeoMeta({
+  title: 'TCG Collage',
+  description: 'Genera collages visuales de tus mazos de Magic: The Gathering y Pokémon TCG de forma rápida y bonita.',
+  ogTitle: 'TCG Collage',
+  ogDescription: 'Genera collages visuales de tus mazos de Magic y Pokémon TCG.',
+  ogImage: 'https://tcgcollage.vercel.app/og-image.png',
+  ogUrl: 'https://tcgcollage.vercel.app',
+  ogType: 'website',
+  twitterCard: 'summary_large_image',
+})
 </script>
 
 <template>

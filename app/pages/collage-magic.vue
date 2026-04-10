@@ -1,5 +1,14 @@
 <script setup lang="ts">
-useHead({ title: 'TCG collage - Magic' })
+useSeoMeta({
+  title: 'Collage Magic: The Gathering — TCG Collage',
+  description: 'Genera collages visuales de tus cartas de Magic: The Gathering. Pega tu lista de mazo y descarga la imagen en PNG.',
+  ogTitle: 'Collage Magic: The Gathering — TCG Collage',
+  ogDescription: 'Genera collages de tus cartas de Magic en segundos.',
+  ogImage: 'https://tcgcollage.vercel.app/og-image.png',
+  ogUrl: 'https://tcgcollage.vercel.app/collage-magic',
+  ogType: 'website',
+  twitterCard: 'summary_large_image',
+})
 
 const { t } = useLocale()
 const { searchCards } = useScryfallApi()

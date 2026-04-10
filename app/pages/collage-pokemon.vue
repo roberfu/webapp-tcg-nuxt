@@ -1,5 +1,14 @@
 <script setup lang="ts">
-useHead({ title: 'TCG collage - Pokémon' })
+useSeoMeta({
+  title: 'Collage Pokémon TCG — TCG Collage',
+  description: 'Genera collages visuales de tus cartas de Pokémon TCG. Compatible con listas de PTCGO y PTCGL.',
+  ogTitle: 'Collage Pokémon TCG — TCG Collage',
+  ogDescription: 'Genera collages de tus cartas de Pokémon en segundos.',
+  ogImage: 'https://tcgcollage.vercel.app/og-image.png',
+  ogUrl: 'https://tcgcollage.vercel.app/collage-pokemon',
+  ogType: 'website',
+  twitterCard: 'summary_large_image',
+})
 
 const { t } = useLocale()
 const { searchCards } = usePokemonTcgApi()
