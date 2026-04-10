@@ -5,9 +5,6 @@ export default defineNuxtConfig({
   future: {
     v4: true
   },
-  nitro: {
-    preset: 'vercel'
-  },
   app: {
     head: {
       title: 'TCG collage',
