@@ -2,11 +2,18 @@ export type BadgeShape = 'circle' | 'diamond' | 'hexagon'
 
 export const useCollageGenerator = () => {
 
-    const loadImg = (url: string): Promise<HTMLImageElement | null> =>
+    const loadImg = (url: string, retries = 2): Promise<HTMLImageElement | null> =>
         new Promise(resolve => {
             const img = new Image()
             img.onload = () => resolve(img)
-            img.onerror = () => resolve(null)
+            img.onerror = async () => {
+                if (retries > 0) {
+                    await new Promise(r => setTimeout(r, 600))
+                    loadImg(url, retries - 1).then(resolve)
+                } else {
+                    resolve(null)
+                }
+            }
             img.src = `/api/image-proxy?url=${encodeURIComponent(url)}`
         })
 
@@ -40,7 +47,12 @@ export const useCollageGenerator = () => {
     ) => {
         const { cols, gap, bg, badgeColor = '#c0392b', borderColor = '#ffffff', badgeShape = 'circle' } = opts
 
-        const images = await Promise.all(cards.map(c => loadImg(c.imageUrl)))
+        const images: (HTMLImageElement | null)[] = []
+        for (let i = 0; i < cards.length; i += 4) {
+            const batch = cards.slice(i, i + 4)
+            const batchResults = await Promise.all(batch.map(c => loadImg(c.imageUrl)))
+            images.push(...batchResults)
+        }
 
         const firstImg = images.find(img => img !== null)
         if (!firstImg) return
@@ -48,8 +60,9 @@ export const useCollageGenerator = () => {
         const cardW = firstImg.naturalWidth
         const cardH = firstImg.naturalHeight
 
-        const rows = Math.ceil(cards.length / cols)
-        const W = cols * cardW + (cols - 1) * gap + gap * 2
+        const actualCols = Math.min(cols, cards.length)
+        const rows = Math.ceil(cards.length / actualCols)
+        const W = actualCols * cardW + (actualCols - 1) * gap + gap * 2
         const H = rows * cardH + (rows - 1) * gap + gap * 2
 
         canvas.width = W
@@ -60,8 +73,8 @@ export const useCollageGenerator = () => {
         ctx.fillRect(0, 0, W, H)
 
         cards.forEach((card, i) => {
-            const col = i % cols
-            const row = Math.floor(i / cols)
+            const col = i % actualCols
+            const row = Math.floor(i / actualCols)
             const x = gap + col * (cardW + gap)
             const y = gap + row * (cardH + gap)
 

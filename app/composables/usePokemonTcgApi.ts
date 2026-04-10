@@ -39,6 +39,7 @@ export const usePokemonTcgApi = () => {
             }
         } catch (e) {
             console.error(`Error fetching set ID for ${ptcgoCode}:`, e)
+            throw e
         }
 
         return null

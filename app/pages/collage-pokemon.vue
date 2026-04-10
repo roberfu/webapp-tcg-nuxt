@@ -12,6 +12,7 @@ const canvasRef = ref<HTMLCanvasElement | null>(null)
 const status = ref('')
 const loading = ref(false)
 const notFound = ref<string[]>([])
+const apiErrors = ref<string[]>([])
 
 const cols = ref(3)
 const gap = ref(12)
@@ -56,35 +57,44 @@ const processDeckList = async () => {
   loading.value = true
   status.value = 'Procesando...'
   notFound.value = []
+  apiErrors.value = []
   deck.value = []
   
   try {
     const parsed = parseDeckList(deckList.value)
-    
-    for (const item of parsed) {
-      try {
-        const cards = await searchCards(item.name, item.setId || undefined, item.number || undefined)
-        if (cards && cards.length > 0) {
-          const card = cards[0]
-          const existing = deck.value.find(c => c.id === card.id)
-          if (existing) {
-            existing.quantity = Math.min(4, existing.quantity + item.quantity)
+    const total = parsed.length
+    let processed = 0
+
+    for (let i = 0; i < parsed.length; i += 4) {
+      const batch = parsed.slice(i, i + 4)
+      await Promise.all(batch.map(async (item) => {
+        try {
+          const cards = await searchCards(item.name, item.setId || undefined, item.number || undefined)
+          if (cards && cards.length > 0) {
+            const card = cards[0]
+            const existing = deck.value.find(c => c.id === card.id)
+            if (existing) {
+              existing.quantity = Math.min(4, existing.quantity + item.quantity)
+            } else {
+              deck.value.push({
+                id: card.id,
+                name: card.name,
+                imageUrl: card.imageUrl,
+                quantity: Math.min(4, item.quantity)
+              })
+            }
           } else {
-            deck.value.push({
-              id: card.id,
-              name: card.name,
-              imageUrl: card.imageUrl,
-              quantity: Math.min(4, item.quantity)
-            })
+            notFound.value.push(item.name)
           }
-        } else {
-          notFound.value.push(item.name)
+        } catch (e) {
+          apiErrors.value.push(item.name)
+        } finally {
+          processed++
+          status.value = `Procesando ${processed}/${total}...`
         }
-      } catch (e) {
-        notFound.value.push(item.name)
-      }
+      }))
     }
-    
+
     status.value = `${deck.value.length} cartas cargadas`
     if (notFound.value.length > 0) {
       status.value += `, ${notFound.value.length} no encontradas`
@@ -222,11 +232,14 @@ const onDownload = () => {
           <div v-if="notFound.length > 0" class="text-sm text-red-400">
             No encontradas: {{ notFound.join(', ') }}
           </div>
+          <div v-if="apiErrors.length > 0" class="text-sm text-yellow-400">
+            Error al buscar (problema de red o API): {{ apiErrors.join(', ') }}
+          </div>
         </div>
 
         <div class="bg-gray-800 rounded-xl p-4 overflow-auto">
           <p class="text-sm text-gray-400 mb-3">
-            Preview — {{ cols }} col{{ cols !== 1 ? 's' : '' }}, {{ Math.ceil(deck.length / cols) }} fila{{ Math.ceil(deck.length / cols) !== 1 ? 's' : '' }}
+            Preview — {{ Math.min(cols, deck.length || 1) }} col{{ Math.min(cols, deck.length || 1) !== 1 ? 's' : '' }}, {{ Math.ceil(deck.length / Math.min(cols, deck.length || 1)) }} fila{{ Math.ceil(deck.length / Math.min(cols, deck.length || 1)) !== 1 ? 's' : '' }}
           </p>
           <canvas ref="canvasRef" class="rounded max-w-full" />
         </div>
