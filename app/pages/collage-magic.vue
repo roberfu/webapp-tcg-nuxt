@@ -28,7 +28,7 @@ const bg = ref('#1a1a1a')
 const badgeColor = ref('#c0392b')
 const borderColor = ref('#ffffff')
 const badgeShape = ref<'circle' | 'diamond' | 'hexagon'>('hexagon')
-const multipleFiles = ref(true)
+const multipleFiles = ref(false)
 const multiRows = ref(3)
 
 watch(() => deck.value.length, (len) => {
@@ -125,6 +125,7 @@ const onDownload = async () => {
   } else {
     if (canvasRef.value) download(canvasRef.value, 'magic')
   }
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 </script>
 
