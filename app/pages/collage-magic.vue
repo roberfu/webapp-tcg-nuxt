@@ -31,11 +31,6 @@ const badgeShape = ref<'circle' | 'diamond' | 'hexagon'>('hexagon')
 const multipleFiles = ref(false)
 const multiRows = ref(3)
 
-watch(() => deck.value.length, (len) => {
-  if (len < 10) multipleFiles.value = false
-  else multipleFiles.value = true
-})
-
 const parseDeckList = (text: string) => {
   const lines = text.trim().split('\n').filter(l => l.trim())
   return lines.map(line => {
