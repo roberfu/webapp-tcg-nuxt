@@ -12,17 +12,41 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
 })
 
-const magicSteps = computed(() => [
-  { img: '/help/magic-step1.png', title: t('help_magic_step1_title'), desc: t('help_magic_step1_desc') },
-  { img: '/help/magic-step2.png', title: t('help_magic_step2_title'), desc: t('help_magic_step2_desc') },
-  { img: '/help/magic-step3.png', title: t('help_magic_step3_title'), desc: t('help_magic_step3_desc') },
+const gameSections = computed(() => [
+  {
+    id: 'magic',
+    title: t('help_magic_section_title'),
+    linkTitle: t('help_magic_section_link'),
+    color: 'purple',
+    steps: [
+      { img: '/help/magic-step1.png', title: t('help_magic_step1_title'), desc: t('help_magic_step1_desc') },
+      { img: '/help/magic-step2.png', title: t('help_magic_step2_title'), desc: t('help_magic_step2_desc') },
+      { img: '/help/magic-step3.png', title: t('help_magic_step3_title'), desc: t('help_magic_step3_desc') },
+    ],
+  },
+  {
+    id: 'pokemon',
+    title: t('help_pokemon_section_title'),
+    linkTitle: t('help_pokemon_section_link'),
+    color: 'yellow',
+    steps: [
+      { img: '/help/pokemon-step1.png', title: t('help_pokemon_step1_title'), desc: t('help_pokemon_step1_desc') },
+      { img: '/help/pokemon-step2.png', title: t('help_pokemon_step2_title'), desc: t('help_pokemon_step2_desc') },
+      { img: '/help/pokemon-step3.png', title: t('help_pokemon_step3_title'), desc: t('help_pokemon_step3_desc') },
+    ],
+  },
 ])
 
-const pokemonSteps = computed(() => [
-  { img: '/help/pokemon-step1.png', title: t('help_pokemon_step1_title'), desc: t('help_pokemon_step1_desc') },
-  { img: '/help/pokemon-step2.png', title: t('help_pokemon_step2_title'), desc: t('help_pokemon_step2_desc') },
-  { img: '/help/pokemon-step3.png', title: t('help_pokemon_step3_title'), desc: t('help_pokemon_step3_desc') },
-])
+const colorClasses = {
+  purple: {
+    text: 'text-purple-400',
+    border: 'from-purple-500',
+  },
+  yellow: {
+    text: 'text-yellow-400',
+    border: 'from-yellow-500',
+  },
+}
 </script>
 
 <template>
@@ -33,38 +57,40 @@ const pokemonSteps = computed(() => [
         <h1 class="text-2xl font-bold">{{ t('help') }}</h1>
       </div>
 
-      <div class="space-y-14">
-        <!-- Magic Section -->
-        <section>
-          <h2 class="text-xl font-bold mb-6 text-purple-400">{{ t('help_magic_title') }}</h2>
-          <div class="space-y-6">
-            <div
-              v-for="(step, index) in magicSteps"
-              :key="index"
-              class="bg-gray-800 rounded-xl overflow-hidden border border-white"
+      <nav class="mb-8 pb-4 border-b border-gray-700">
+        <ul class="space-y-2">
+          <li v-for="section in gameSections" :key="section.id">
+            <a
+              :href="`#${section.id}`"
+              :class="[
+                'flex items-center gap-2 text-sm font-medium transition-colors',
+                colorClasses[section.color as keyof typeof colorClasses].text,
+                'hover:underline'
+              ]"
             >
-              <div class="p-5">
-                <h3 class="font-semibold text-white mb-1">{{ step.title }}</h3>
-                <p class="text-gray-400 text-sm">{{ step.desc }}</p>
-              </div>
-              <img
-                :src="step.img"
-                :alt="step.title"
-                class="w-full object-cover"
-                loading="lazy"
-              />
-            </div>
-          </div>
-        </section>
+              <span>{{ section.linkTitle }}</span>
+              <span class="text-gray-500">→</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
 
-        <!-- Pokémon Section -->
-        <section>
-          <h2 class="text-xl font-bold mb-6 text-yellow-400">{{ t('help_pokemon_title') }}</h2>
+      <div class="space-y-16">
+        <section
+          v-for="section in gameSections"
+          :key="section.id"
+          :id="section.id"
+        >
+          <h2 :class="['text-2xl font-bold mb-1', colorClasses[section.color as keyof typeof colorClasses].text]">
+            {{ section.title }}
+          </h2>
+          <div :class="['h-0.5 w-full bg-gradient-to-r mb-8', colorClasses[section.color as keyof typeof colorClasses].border, 'to-transparent']"></div>
+
           <div class="space-y-6">
             <div
-              v-for="(step, index) in pokemonSteps"
+              v-for="(step, index) in section.steps"
               :key="index"
-              class="bg-gray-800 rounded-xl overflow-hidden border border-white"
+              class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700"
             >
               <div class="p-5">
                 <h3 class="font-semibold text-white mb-1">{{ step.title }}</h3>
