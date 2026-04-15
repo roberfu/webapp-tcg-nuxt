@@ -59,6 +59,13 @@ useHead({
           rel="noopener noreferrer"
           class="text-gray-400 hover:text-white underline"
         >{{ t('footer_discord') }}</a>
+        <span class="text-gray-700">·</span>
+        <a
+          href="https://ko-fi.com/E1E31XUPEC"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-gray-400 hover:text-yellow-400 underline"
+        >{{ t('footer_donate') }}</a>
       </p>
     </footer>
   </div>
