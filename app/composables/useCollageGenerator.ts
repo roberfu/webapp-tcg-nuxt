@@ -1,6 +1,5 @@
 export type BadgeShape = 'circle' | 'diamond' | 'hexagon'
 
-const HEADER_HEIGHT = 32
 const CORNER_RADIUS = 16
 const SITE_URL = 'tcgcollage.com'
 
@@ -81,14 +80,18 @@ export const useCollageGenerator = () => {
         const rows = Math.ceil(cards.length / actualCols)
         const numSeps = separatorRows ? Math.floor((rows - 1) / separatorRows) : 0
         const sepH = numSeps > 0 ? Math.max(gap * 4, 40) : 0
+        const emptySlots = (actualCols * rows) - cards.length
+        const W = actualCols * cardW + (actualCols - 1) * gap + gap * 2
+        const totalCardsHeight = rows * cardH + (rows - 1) * gap + gap * 2 + numSeps * sepH
+
+        const footerFontSize = Math.round(W * 0.04)
+        const footerHeight = Math.round(footerFontSize * 1.3)
+        const H = totalCardsHeight + footerHeight
 
         const getCardY = (row: number) => {
             const sepsAbove = separatorRows ? Math.floor(row / separatorRows) : 0
-            return HEADER_HEIGHT + gap + row * (cardH + gap) + sepsAbove * sepH
+            return gap + row * (cardH + gap) + sepsAbove * sepH
         }
-
-        const W = actualCols * cardW + (actualCols - 1) * gap + gap * 2
-        const H = rows * cardH + (rows - 1) * gap + gap * 2 + numSeps * sepH + HEADER_HEIGHT * 2
 
         canvas.width = W
         canvas.height = H
@@ -112,15 +115,6 @@ export const useCollageGenerator = () => {
         // Fondo interior
         ctx.fillStyle = bg
         ctx.fillRect(0, 0, W, H)
-
-        // Header con URL del sitio
-        ctx.fillStyle = bg
-        ctx.fillRect(0, 0, W, HEADER_HEIGHT)
-        ctx.fillStyle = urlTextColor
-        ctx.font = `bold ${Math.round(HEADER_HEIGHT * 0.45)}px sans-serif`
-        ctx.textAlign = 'center'
-        ctx.textBaseline = 'middle'
-        ctx.fillText(SITE_URL, W / 2, HEADER_HEIGHT / 2)
 
         // Dibujar bandas de separación con color de fondo de la página
         if (separatorRows && numSeps > 0) {
@@ -168,14 +162,14 @@ export const useCollageGenerator = () => {
             ctx.fillText(String(card.quantity), bx, by)
         })
 
-        // Footer con URL del sitio
+        // Footer con texto "tcgcollage.com" (siempre visible, pegado a la derecha)
         ctx.fillStyle = bg
-        ctx.fillRect(0, H - HEADER_HEIGHT, W, HEADER_HEIGHT)
-        ctx.fillStyle = urlTextColor
-        ctx.font = `bold ${Math.round(HEADER_HEIGHT * 0.45)}px sans-serif`
-        ctx.textAlign = 'center'
+        ctx.fillRect(0, H - footerHeight, W, footerHeight)
+        ctx.fillStyle = urlTextColor + '33' // alpha 0.2
+        ctx.font = `bold ${footerFontSize}px sans-serif`
+        ctx.textAlign = 'right'
         ctx.textBaseline = 'middle'
-        ctx.fillText(SITE_URL, W / 2, H - HEADER_HEIGHT / 2)
+        ctx.fillText(SITE_URL, W - gap, H - footerHeight / 2)
 
         ctx.restore()
     }
