@@ -53,11 +53,11 @@ const colorClasses = {
   <div class="flex-1 p-4 sm:p-6">
     <div class="max-w-4xl mx-auto">
       <div class="flex items-center gap-4 mb-8">
-        <NuxtLink to="/" class="text-gray-400 hover:text-white">{{ t('home') }}</NuxtLink>
+        <NuxtLink to="/" class="text-brand-400 hover:text-white">{{ t('home') }}</NuxtLink>
         <h1 class="text-2xl font-bold">{{ t('help') }}</h1>
       </div>
 
-      <nav class="mb-8 pb-4 border-b border-gray-700">
+      <nav class="mb-8 pb-4 border-b border-brand-800">
         <ul class="space-y-2">
           <li v-for="section in gameSections" :key="section.id">
             <a
@@ -69,7 +69,7 @@ const colorClasses = {
               ]"
             >
               <span>{{ section.linkTitle }}</span>
-              <span class="text-gray-500">→</span>
+              <span class="text-brand-600">→</span>
             </a>
           </li>
         </ul>
@@ -90,11 +90,11 @@ const colorClasses = {
             <div
               v-for="(step, index) in section.steps"
               :key="index"
-              class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700"
+              class="bg-brand-900 rounded-xl overflow-hidden border border-brand-800"
             >
               <div class="p-5">
                 <h3 class="font-semibold text-white mb-1">{{ step.title }}</h3>
-                <p class="text-gray-400 text-sm">{{ step.desc }}</p>
+                <p class="text-brand-400 text-sm">{{ step.desc }}</p>
               </div>
               <img
                 :src="step.img"

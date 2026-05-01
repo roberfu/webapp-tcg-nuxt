@@ -64,35 +64,35 @@ const { locale } = useLocale()
   <div class="flex-1 p-4 sm:p-6">
     <div class="max-w-3xl mx-auto">
       <div class="flex items-center gap-4 mb-8">
-        <NuxtLink to="/" class="text-gray-400 hover:text-white">{{ t('home') }}</NuxtLink>
+        <NuxtLink to="/" class="text-brand-400 hover:text-white">{{ t('home') }}</NuxtLink>
         <h1 class="text-2xl font-bold">{{ t('about') }}</h1>
       </div>
 
       <div class="space-y-8">
         <!-- Quiénes somos -->
-        <div class="bg-gray-800 rounded-xl p-6">
-          <h2 class="text-lg font-bold mb-3 text-purple-400">{{ t('about_who_title') }}</h2>
-          <p class="text-gray-300 leading-relaxed">{{ t('about_who_desc') }}</p>
+        <div class="bg-brand-900 rounded-xl p-6">
+          <h2 class="text-lg font-bold mb-3 text-brand-400">{{ t('about_who_title') }}</h2>
+          <p class="text-brand-300 leading-relaxed">{{ t('about_who_desc') }}</p>
         </div>
 
         <!-- Agradecimientos -->
-        <div class="bg-gray-800 rounded-xl p-6">
-          <h2 class="text-lg font-bold mb-2 text-yellow-400">{{ t('about_thanks_title') }}</h2>
-          <p class="text-gray-400 text-sm mb-5">{{ t('about_thanks_intro') }}</p>
+        <div class="bg-brand-900 rounded-xl p-6">
+          <h2 class="text-lg font-bold mb-2 text-amber-400">{{ t('about_thanks_title') }}</h2>
+          <p class="text-brand-400 text-sm mb-5">{{ t('about_thanks_intro') }}</p>
           <div class="space-y-4">
             <div
               v-for="credit in credits"
               :key="credit.name"
-              class="flex items-start gap-3 border-t border-gray-700 pt-4 first:border-0 first:pt-0"
+              class="flex items-start gap-3 border-t border-brand-800 pt-4 first:border-0 first:pt-0"
             >
               <div class="flex-1">
                 <a
                   :href="credit.url"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="font-semibold text-white hover:text-purple-400 transition-colors"
+                  class="font-semibold text-white hover:text-brand-400 transition-colors"
                 >{{ credit.name }} ↗</a>
-                <p class="text-gray-400 text-sm mt-0.5">
+                <p class="text-brand-400 text-sm mt-0.5">
                   {{ locale === 'es' ? credit.desc_es : credit.desc_en }}
                 </p>
               </div>
