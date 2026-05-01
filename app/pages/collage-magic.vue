@@ -12,7 +12,7 @@ useSeoMeta({
 
 const { t } = useLocale()
 const { searchCards } = useScryfallApi()
-const { generate, download, downloadAll } = useCollageGenerator()
+const { generate, download, downloadAll, downloadPDF } = useCollageGenerator()
 
 const deckList = ref('')
 const deck = ref<{ id: string; name: string; imageUrl: string; quantity: number }[]>([])
@@ -116,14 +116,26 @@ const onGenerate = async () => {
   status.value = t('collage_ready')
 }
 
-const onDownload = async () => {
-  if (multipleFiles.value) {
-    await downloadAll(deck.value, { cols: cols.value, gap: gap.value, bg: bg.value, badgeColor: badgeColor.value, borderColor: borderColor.value, badgeShape: badgeShape.value }, 'magic', multiRows.value)
-  } else {
-    if (canvasRef.value) download(canvasRef.value, 'magic')
+  const onDownload = async () => {
+    if (multipleFiles.value) {
+      await downloadAll(deck.value, { cols: cols.value, gap: gap.value, bg: bg.value, badgeColor: badgeColor.value, borderColor: borderColor.value, badgeShape: badgeShape.value }, 'magic', multiRows.value)
+    } else {
+      if (canvasRef.value) download(canvasRef.value, 'magic')
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-}
+
+  const onDownloadPDF = async () => {
+    if (deck.value.length === 0) return
+    status.value = t('generating_pdf')
+    await downloadPDF(
+      deck.value,
+      { gap: gap.value, bg: bg.value, badgeColor: badgeColor.value, borderColor: borderColor.value, badgeShape: badgeShape.value },
+      'magic',
+      (msg) => { status.value = msg }
+    )
+    status.value = t('pdf_ready')
+  }
 </script>
 
 <template>
@@ -234,6 +246,13 @@ const onDownload = async () => {
               @click="onDownload"
             >
               {{ t('download_png') }}
+            </button>
+            <button
+              class="flex-1 py-3 bg-brand-700 rounded-xl font-medium hover:bg-brand-600 disabled:opacity-40"
+              :disabled="!collageReady"
+              @click="onDownloadPDF"
+            >
+              {{ t('download_pdf') }}
             </button>
           </div>
 

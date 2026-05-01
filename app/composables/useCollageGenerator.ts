@@ -224,5 +224,59 @@ export const useCollageGenerator = () => {
         }
     }
 
-    return { generate, download, downloadAll }
+    const downloadPDF = async (
+        cards: { name: string; imageUrl: string; quantity: number }[],
+        opts: { gap: number; bg: string; badgeColor?: string; borderColor?: string; badgeShape?: BadgeShape },
+        type: 'pokemon' | 'magic',
+        onProgress?: (msg: string) => void
+    ) => {
+        const { jsPDF } = await import('jspdf')
+        const images = await loadImages(cards)
+
+        const validCards = cards.filter((_, i) => images[i] !== null)
+        const validImages = images.filter(img => img !== null)
+
+        if (validCards.length === 0) {
+            onProgress?.('No images found')
+            return
+        }
+
+        const cardsPerPage = 9
+        const totalPages = Math.ceil(validCards.length / cardsPerPage)
+
+        let pdf: jsPDF | null = null
+
+        for (let p = 0; p < totalPages; p++) {
+            onProgress?.(`Page ${p + 1} of ${totalPages}...`)
+            const startIdx = p * cardsPerPage
+            const pageCards = validCards.slice(startIdx, startIdx + cardsPerPage)
+            const pageImages = validImages.slice(startIdx, startIdx + cardsPerPage)
+
+            const tempCanvas = document.createElement('canvas')
+            await generate(tempCanvas, pageCards, { cols: 3, ...opts }, pageImages)
+
+            if (tempCanvas.width === 0 || tempCanvas.height === 0) continue
+
+            const imgData = tempCanvas.toDataURL('image/jpeg', 0.80)
+
+            if (!pdf) {
+                pdf = new jsPDF({
+                    orientation: tempCanvas.width > tempCanvas.height ? 'landscape' : 'portrait',
+                    unit: 'px',
+                    format: [tempCanvas.width, tempCanvas.height],
+                })
+            } else {
+                pdf.addPage([tempCanvas.width, tempCanvas.height], tempCanvas.width > tempCanvas.height ? 'landscape' : 'portrait')
+            }
+            pdf.addImage(imgData, 'JPEG', 0, 0, tempCanvas.width, tempCanvas.height)
+        }
+
+        if (pdf) {
+            const timestamp = getTimestamp()
+            pdf.save(`collage_${type}_${timestamp}.pdf`)
+        }
+        onProgress?.('PDF ready')
+    }
+
+    return { generate, download, downloadAll, downloadPDF }
 }

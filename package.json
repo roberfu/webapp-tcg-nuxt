@@ -1,6 +1,6 @@
 {
   "name": "webapp-tcg-nuxt",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "type": "module",
   "private": true,
   "scripts": {
@@ -11,6 +11,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "jspdf": "^3.0.0",
     "nuxt": "^4.4.2",
     "vue": "^3.5.31",
     "vue-router": "^5.0.4"
