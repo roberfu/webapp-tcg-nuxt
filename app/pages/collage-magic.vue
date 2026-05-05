@@ -19,7 +19,10 @@ const deck = ref<{ id: string; name: string; imageUrl: string; quantity: number 
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 const status = ref('')
 const loading = ref(false)
+const generating = ref(false)
 const collageReady = ref(false)
+
+const showOverlay = computed(() => loading.value || generating.value)
 const notFound = ref<string[]>([])
 
 const cols = ref(3)
@@ -114,6 +117,7 @@ const removeCard = (id: string) => {
 const onGenerate = async () => {
   if (!canvasRef.value || deck.value.length === 0) return
   status.value = t('generating')
+  generating.value = true
   await generate(
     canvasRef.value,
     deck.value,
@@ -121,13 +125,17 @@ const onGenerate = async () => {
     undefined,
     multipleFiles.value ? multiRows.value : undefined
   )
+  generating.value = false
   collageReady.value = true
   status.value = t('collage_ready')
 }
 
   const onDownload = async () => {
     if (multipleFiles.value) {
+      status.value = t('generating')
+      generating.value = true
       await downloadAll(deck.value, { cols: cols.value, gap: gap.value, bg: bg.value, badgeColor: badgeColor.value, borderColor: borderColor.value, badgeShape: badgeShape.value }, 'magic', multiRows.value)
+      generating.value = false
     } else {
       if (canvasRef.value) download(canvasRef.value, 'magic')
     }
@@ -137,18 +145,21 @@ const onGenerate = async () => {
   const onDownloadPDF = async () => {
     if (deck.value.length === 0) return
     status.value = t('generating_pdf')
+    generating.value = true
     await downloadPDF(
       deck.value,
       { gap: gap.value, bg: bg.value, badgeColor: badgeColor.value, borderColor: borderColor.value, badgeShape: badgeShape.value },
       'magic',
       (msg) => { status.value = msg }
     )
+    generating.value = false
     status.value = t('pdf_ready')
   }
 </script>
 
 <template>
   <div class="flex-1 p-4 sm:p-6">
+    <LoadingOverlay :visible="showOverlay" :message="status" />
     <div class="max-w-6xl mx-auto">
 
       <div class="flex items-center gap-4 mb-6">
