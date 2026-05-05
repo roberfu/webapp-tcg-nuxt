@@ -64,7 +64,9 @@ export const useCollageGenerator = () => {
         cards: { name: string; imageUrl: string; quantity: number }[],
         opts: { cols: number; gap: number; bg: string; badgeColor?: string; borderColor?: string; badgeShape?: BadgeShape },
         preloadedImages?: (HTMLImageElement | null)[],
-        separatorRows?: number
+        separatorRows?: number,
+        fixedCardW?: number,
+        fixedCardH?: number,
     ) => {
         const { cols, gap, bg, badgeColor = '#c0392b', borderColor = '#ffffff', badgeShape = 'circle' } = opts
 
@@ -73,8 +75,8 @@ export const useCollageGenerator = () => {
         const firstImg = images.find(img => img !== null)
         if (!firstImg) return
 
-        const cardW = firstImg.naturalWidth
-        const cardH = firstImg.naturalHeight
+        const cardW = fixedCardW ?? firstImg.naturalWidth
+        const cardH = fixedCardH ?? firstImg.naturalHeight
 
         const actualCols = Math.min(cols, cards.length)
         const rows = Math.ceil(cards.length / actualCols)
@@ -244,6 +246,10 @@ export const useCollageGenerator = () => {
         const cardsPerPage = 9
         const totalPages = Math.ceil(validCards.length / cardsPerPage)
 
+        const refImg = validImages.find(img => img !== null)
+        const refCardW = refImg?.naturalWidth ?? 0
+        const refCardH = refImg?.naturalHeight ?? 0
+
         let pdf: jsPDF | null = null
 
         for (let p = 0; p < totalPages; p++) {
@@ -253,7 +259,7 @@ export const useCollageGenerator = () => {
             const pageImages = validImages.slice(startIdx, startIdx + cardsPerPage)
 
             const tempCanvas = document.createElement('canvas')
-            await generate(tempCanvas, pageCards, { cols: 3, ...opts }, pageImages)
+            await generate(tempCanvas, pageCards, { cols: 3, ...opts }, pageImages, undefined, refCardW, refCardH)
 
             if (tempCanvas.width === 0 || tempCanvas.height === 0) continue
 
